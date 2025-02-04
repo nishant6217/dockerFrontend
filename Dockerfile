@@ -8,7 +8,7 @@ WORKDIR /usr/local/apache2/htdocs/
 COPY . .
 
 
-EXPOSE 83
+EXPOSE 80
 
 
 CMD ["httpd", "-D", "FOREGROUND"]
