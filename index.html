@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      * {
+        font-family: Arial, sans-serif;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        margin: 0;
+      }
+      .container {
+        width: 350px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+      h2 {
+        margin-bottom: 20px;
+        color: #444;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background: #5cb85c;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #4cae4c;
+      }
+      .message {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .success {
+        color: green;
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        color: red;
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Enter Username" />
+      <input type="password" id="password" placeholder="Enter Password" />
+      <button onclick="handleLogin()">Login</button>
+      <div id="message" class="message" style="display: none"></div>
+    </div>
+
+    <script>
+      function handleLogin() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const messageDiv = document.getElementById("message");
+
+        fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              messageDiv.innerText = "Hurray! 🎉 Login Successful!";
+              messageDiv.className = "message success";
+            } else {
+              messageDiv.innerText = "Oops, sorry! ❌ Invalid Credentials";
+              messageDiv.className = "message error";
+            }
+            messageDiv.style.display = "block";
+          })
+          .catch((error) => {
+            messageDiv.innerText = "Oops, something went wrong!";
+            messageDiv.className = "message error";
+            messageDiv.style.display = "block";
+          });
+      }
+    </script>
+  </body>
+</html>
